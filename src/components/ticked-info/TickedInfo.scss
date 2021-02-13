@@ -1,0 +1,25 @@
+.tickedInfo {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    width: 462px;
+    height: 39px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.tickedInfoBlock {
+    margin-bottom: 10px;
+}
+
+.tickedInfoBlockText {
+    height: 18px;
+    color: #A0B0B9;
+    font-size: 12px;
+}
+
+.tickedInfoBlockInfo {
+    height: 18px;
+    color: #4A4A4A;
+    font-size: 14px;
+}

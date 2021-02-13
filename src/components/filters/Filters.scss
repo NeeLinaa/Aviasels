@@ -1,0 +1,53 @@
+$textColor: #4A4A4A;
+
+.filtersCard {
+    font-weight: 600;
+    font-size: 12px;
+    width: 232px;
+    height: 252px;
+    background: #FFFFFF;
+    color: $textColor;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.checkbox {
+    font-weight: normal;
+    font-size: 18px;
+    width: 232px;
+    height: 40px;
+    margin-left: 20px;
+}
+
+.check {
+    padding-left: 1.2em;
+}
+
+.check_input {
+    // скрываю чекбокс
+    appearance: none;
+}
+
+// сразу после инпута стоит наш чекбокс
+.check_input:checked + .check_box {
+    background-image: url(../../img/Checked_checkbox.svg);
+}
+
+.check_box {
+    position: absolute;
+    margin-left: -1.2em;
+    width: 1em;
+    height: 1em;
+    background-image: url(../../img/Unchecked_checkbox.svg);
+    cursor: pointer;
+}
+
+.text {
+    margin-left: 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.mainText {
+    margin-left: 20px;
+}

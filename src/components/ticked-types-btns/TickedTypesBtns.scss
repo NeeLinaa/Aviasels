@@ -1,0 +1,27 @@
+$textColor: #4A4A4A;
+
+.tickedTypesBtns {
+    margin-bottom: 20px;
+}
+
+.tickedBtn {
+    width: 252px;
+    height: 52px;
+    font-size: 12px;
+    border: 1px solid #DFE5EC;
+    box-sizing: border-box;
+}
+
+.cheapTicked {
+    color: #FFFFFF;
+    background: #2196F3;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.fastTicked {
+    color: $textColor;
+    background: #FFFFFF;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

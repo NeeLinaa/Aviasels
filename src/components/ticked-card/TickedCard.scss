@@ -1,0 +1,23 @@
+.tickedCard {
+    width: 432px;
+    max-height: 184px;
+    padding: 0 50px 10px 20px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.sumAndLogo {
+    width: 462px;
+    height: 76px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    color: #2196F3;
+    font-size: 24px;
+}
