@@ -23,13 +23,13 @@ $textColor: #4A4A4A;
     padding-left: 1.2em;
 }
 
-.check_input {
+.checkInput {
     // скрываю чекбокс
     appearance: none;
 }
 
 // сразу после инпута стоит наш чекбокс
-.check_input:checked + .check_box {
+.checkInput:checked + .checkBox {
     background-image: url(../../img/Checked_checkbox.svg);
 }
 
