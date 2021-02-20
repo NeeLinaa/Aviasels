@@ -1,74 +1,79 @@
-import React from 'react';
-import {bindActionCreators} from 'redux'
+import React, { useEffect } from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/action'
 
-
-    // const [flagCheckbox, setFlagCheckbox] = useState(false);
-
-    // function changeMainChekbox() {
-        // setFlagCheckbox(!flagCheckbox)
-        // if (!flagCheckbox) {
-        //     for (let i = 0; i < otherCheck.length; i++) {
-        //         if (otherCheck[i].type === 'checkbox') otherCheck[i].checked=true
-        //     }
-        // } else {
-        //     for (let i = 0; i < otherCheck.length; i++) {
-        //         if (otherCheck[i].type === 'checkbox') otherCheck[i].checked=false
-        //     }
-        // }
-    // }
-
-    // function changeAllChekbox(e) {
-    //     // for (let i = otherCheck.length; i--;) {
-    //     //     let newChecked = true
-    //     //     if (!otherCheck[i].checked) newChecked = false
-    //     //     mainCheck.checked = newChecked ? setFlagCheckbox(true) : setFlagCheckbox(false)
-    //     // }
-    // }
-    
 import './Filters.scss'
 
-let mainCheck = document.getElementsByClassName('mainCheck')
-let otherCheck = document.getElementsByClassName('otherCheckbox')
 
-const Filters = ({checkBox, otherCheckboxes, change_check_on, change_check_off}) => {
-    console.log(checkBox, otherCheckboxes)
+const Filters = ({ otherCheckboxes, changeCheckOn, changeCheckOff, changeOneCheckOn, changeMainCheckOff }) => {
 
     const allFilters = [
-        {name: 'withoutTransfers', value: 'Без пересадок'},
-        {name: 'oneTransfers', value: '1 пересадка'},
-        {name: 'twoTransfers', value: '2 пересадки'},
-        {name: 'threeTransfers', value: '3 пересадки'}
+        {name: 'withoutTransfers', value: 'Без пересадок', id: 1},
+        {name: 'oneTransfers', value: '1 пересадка', id: 2},
+        {name: 'twoTransfers', value: '2 пересадки', id: 3},
+        {name: 'threeTransfers', value: '3 пересадки', id: 4}
     ]
 
-    const filters = allFilters.map(({name, value}) => {
+    const changeAllCheck = (e) => {
+        if (e.target.checked) {
+            changeCheckOn()
+        } else {
+            changeCheckOff()
+        }
+    }
+
+    const changeFilters = (e, obj) => {
+        const array = Object.entries(obj)
+        const idx = Number(e.target.id)
+
+        array.map(elem => {
+            if (Number(elem[0]) === idx) elem[1] = !elem[1]
+            return elem
+        })
+
+        const newObj = Object.fromEntries(array)
+        changeOneCheckOn(newObj)
+
+        if (array[1][1] === true && 
+            array[2][1] === true && 
+            array[3][1] === true && 
+            array[4][1] === true) {
+                return changeCheckOn()
+            } 
+
+        for (let i = 1; i < array.length; i++) {
+            if (array[i][1] === false) changeMainCheckOff()
+        }
+    }
+
+    const filters = allFilters.map((elem) => {
+
         return (
-            <div key={name} className='checkbox'>
-                <label htmlFor={name} className='check'>
-                    <input id={name} type="checkbox" value={value} 
+            <div key={elem.name} className='checkbox'>
+                <label htmlFor={elem.id} className='check'>
+                    <input id={elem.id} type="checkbox"
                             className='checkInput otherCheckbox'
-                            // onChange={changeAllChekbox}
-                            defaultChecked={otherCheckboxes}
+                            checked={otherCheckboxes[elem.id]}
+                            onChange={(e) => {
+                                changeFilters(e, otherCheckboxes)
+                            }}
                              />
                     <span className='checkBox' />
-                    <span className='text'>{value}</span>
+                    <span className='text'>{elem.value}</span>
                 </label>
             </div>
         )
     })
-
     return (
         <div className='filtersCard'>
             <p className='text mainText'>КОЛИЧЕСТВО ПЕРЕСАДОК</p>
 
             <div key='all' className='checkbox'>
                 <label htmlFor='all' className='check'>
-                    <input id='all' type="checkbox" value='Все' 
+                    <input id='all' type="checkbox"
                             className='checkInput mainCheckbox'
-                            defaultChecked={checkBox}
-                            // onChange={changeMainChekbox}
-                            onClick={change_check_on}
+                            checked={otherCheckboxes[0]}
+                            onChange={(e) => changeAllCheck(e)}
                              />
                     <span className='checkBox' />
                     <span className='text'>
@@ -79,13 +84,12 @@ const Filters = ({checkBox, otherCheckboxes, change_check_on, change_check_off})
 
             <div>{filters}</div>
         </div>
-        
+
     )
 }
 
 const mapStateToProps = (state) => {
     return {
-        checkBox: state.checkboxes.checkBox,
         otherCheckboxes: state.checkboxes.otherCheckboxes
     }
 }

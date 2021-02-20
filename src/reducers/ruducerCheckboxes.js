@@ -1,28 +1,58 @@
-import { CHANGE_ALL_CHECK_ON, CHANGE_ALL_CHECK_OFF } from "../types/types"
+import { 
+            CHANGE_ALL_CHECK_ON, 
+            CHANGE_ALL_CHECK_OFF, 
+            CHANGE_ONE_CHECK_ON,
+            CHANGE_MAIN_CHECK_OFF
+        } from "../types/types"
 
 const ruducerCheckboxes = (state = {
-                            checkBox: false,
-                            otherCheckboxes: false
+                            otherCheckboxes: {
+                                0: false,
+                                1: false,
+                                2: false,
+                                3: false,
+                                4: false
+                            }
                         }, 
                 actions) => {
     if (actions.type === CHANGE_ALL_CHECK_ON) {
-        return Object.assign({}, state, {
-            checkBox: true,
-            otherCheckboxes: true
+        return ({
+            ...state,
+            otherCheckboxes: {
+                0: true,
+                1: true,
+                2: true,
+                3: true,
+                4: true
+            }
         })
-        // return ({
-        //     ...state,
-        //     checkBox: true,
-        //     otherCheckboxes: true
-        // })
     } else if (actions.type === CHANGE_ALL_CHECK_OFF) {
-        return Object.assign({}, state, {
-            checkBox: false,
-            otherCheckboxes: false
+        return ({
+            ...state,
+            otherCheckboxes: {
+                0: false,
+                1: false,
+                2: false,
+                3: false,
+                4: false
+            }
         })
-        // return state
+    } else if (actions.type === CHANGE_ONE_CHECK_ON) {
+        return ({
+            ...state,
+            otherCheckboxes: actions.arr
+        })
+    } else if (actions.type === CHANGE_MAIN_CHECK_OFF) {
+        return ({
+            ...state, 
+            otherCheckboxes: {
+                ...state.otherCheckboxes,
+                0: false
+            }
+        })
+    } else {
+        return state
     }
-    return state
 }
 
 export default ruducerCheckboxes;
