@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/action'
 
@@ -13,6 +13,7 @@ const Filters = ({ otherCheckboxes, changeCheckOn, changeCheckOff, changeOneChec
         {name: 'twoTransfers', value: '2 пересадки', id: 3},
         {name: 'threeTransfers', value: '3 пересадки', id: 4}
     ]
+
 
     const changeAllCheck = (e) => {
         if (e.target.checked) {
@@ -93,5 +94,6 @@ const mapStateToProps = (state) => {
         otherCheckboxes: state.checkboxes.otherCheckboxes
     }
 }
+
 
 export default connect(mapStateToProps, actions)(Filters);
