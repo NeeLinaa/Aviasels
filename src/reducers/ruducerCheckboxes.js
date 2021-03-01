@@ -26,7 +26,7 @@ const ruducerCheckboxes = (state = {
                 4: true
             }
         })
-    } else if (actions.type === CHANGE_ALL_CHECK_OFF) {
+    } if (actions.type === CHANGE_ALL_CHECK_OFF) {
         return ({
             ...state,
             otherCheckboxes: {
@@ -37,12 +37,12 @@ const ruducerCheckboxes = (state = {
                 4: false
             }
         })
-    } else if (actions.type === CHANGE_ONE_CHECK_ON) {
+    } if (actions.type === CHANGE_ONE_CHECK_ON) {
         return ({
             ...state,
             otherCheckboxes: actions.arr
         })
-    } else if (actions.type === CHANGE_MAIN_CHECK_OFF) {
+    } if (actions.type === CHANGE_MAIN_CHECK_OFF) {
         return ({
             ...state, 
             otherCheckboxes: {
@@ -50,9 +50,9 @@ const ruducerCheckboxes = (state = {
                 0: false
             }
         })
-    } else {
+    } 
         return state
-    }
+    
 }
 
 export default ruducerCheckboxes;

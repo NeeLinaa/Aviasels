@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import reduxThunk from 'redux-thunk';
 
 import './index.scss';
-import App from '././components/app/App';
+import App from "./components/app/App";
 import ruducerCheckboxes from './reducers/index';
 
 const composeEnhancers =
@@ -25,10 +25,8 @@ const store = createStore(ruducerCheckboxes, composeEnhancers(applyMiddleware(
   reduxThunk
   )));
 
-const Index = () => {
-    return (<Provider store={store}>
+const Index = () => (<Provider store={store}>
       <App />
     </Provider>)
-}
 
 ReactDOM.render(<Index />, document.getElementById('root'));
