@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Spin } from 'antd';
 import { connect } from 'react-redux';
 import TickedInfo from '../ticked-info/TickedInfo';
 import * as actions from '../../actions/action';
+import { priceFormatting, sortTickets } from '../../utilits';
+import Warning from '../warning/Warning';
+import Error from '../error/Error';
+import Spiner from '../spiner/Spiner';
 
 import classes from './TickedCard.module.scss';
 import S7_Logo from '../../img/S7_Logo.png';
 
-const TickedCard = ({ allTickets, flag, error, otherCheckboxes, loading }) => {
+const TickedCard = ({ allTickets, flag, otherCheckboxes, error, loading }) => {
   const [renderArrTicket, setRenderArrTicket] = useState([]);
   const checkValues = Object.values(otherCheckboxes);
 
   function createTicketCard(data) {
-    function priceFormatting(num) {
-      return `${String(num).slice(0, -3)} ${String(num).slice(-3)}`;
-    }
-
     const key = data.price + data.carrier + data.segments[0].duration;
 
     return (
@@ -32,48 +31,17 @@ const TickedCard = ({ allTickets, flag, error, otherCheckboxes, loading }) => {
     );
   }
 
-  const sortTickets = () => {
-    const newRendTick = [];
-    const idx = [];
-    if (allTickets) {
-      checkValues.findIndex((value, index) => {
-        if (value) idx.push(Number(index) - 1);
-        return '';
-      });
-      allTickets.map((elem) => {
-        if (idx.includes(elem.segments[0].stops.length)) newRendTick.push(elem);
-        return elem;
-      });
-    }
-    return setRenderArrTicket(newRendTick.slice(0, 5));
-  };
-
   useEffect(() => {
-    if (allTickets) sortTickets();
+    if (allTickets) sortTickets(allTickets, checkValues, setRenderArrTicket);
   }, [flag, allTickets, otherCheckboxes]);
 
-  if (error[0]) {
-    return (
-      <div style={{ fontSize: 13, color: '#4A4A4A', fontWeight: 'normal' }}>Что-то пошло не так, обновите страницу</div>
-    );
-  }
+  if (error[0]) <Error />;
 
-  function spinner() {
-    return (
-      <div className="example">
-        <Spin size="large" />
-      </div>
-    );
-  }
+  if (loading) return <Spiner />;
 
-  if (loading) return spinner();
-
+  // проверяю состояние чекбоксов для количесва пересадок 1-4
   if (checkValues[1] === false && checkValues[2] === false && checkValues[3] === false && checkValues[4] === false) {
-    return (
-      <div style={{ fontSize: 13, color: '#4A4A4A', fontWeight: 'normal' }}>
-        Рейсов, подходящих под заданные фильтры, не найдено
-      </div>
-    );
+    return <Warning />;
   }
   return <div>{allTickets && renderArrTicket.map((ticket) => createTicketCard(ticket))}</div>;
 };

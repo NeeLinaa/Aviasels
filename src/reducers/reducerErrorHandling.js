@@ -1,4 +1,4 @@
-import { ERROR_HANDLING } from '../types/types';
+import { ERROR_HANDLING } from '../types/actionTypes';
 
 const reducerErrorHandling = (state = false, actions) => {
   switch (actions.type) {

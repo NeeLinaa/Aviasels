@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/action';
+import { changeFilters } from '../../utilits';
 
 import './Filters.scss';
 
@@ -21,30 +22,6 @@ const Filters = ({ otherCheckboxes, changeCheckOn, changeCheckOff, changeOneChec
     }
   };
 
-  const changeFilters = (evn, obj) => {
-    /* eslint-disable */
-    const array = Object.entries(obj);
-    const idx = Number(evn.target.id);
-
-    array.map((elem) => {
-      if (Number(elem[0]) === idx) elem[1] = !elem[1];
-      return elem;
-    });
-
-    const newObj = Object.fromEntries(array);
-    changeOneCheckOn(newObj);
-
-    if (array[1][1] === true && array[2][1] === true && array[3][1] === true && array[4][1] === true) {
-      return changeCheckOn();
-    }
-
-    for (let i = 1; i < array.length; i++) {
-      if (array[i][1] === false) changeMainCheckOff();
-    }
-    /* eslint-enable */
-    return [];
-  };
-
   const filters = allFilters.map((elem) => (
     <div key={elem.name} className="checkbox">
       <label htmlFor={elem.id} className="check">
@@ -53,13 +30,14 @@ const Filters = ({ otherCheckboxes, changeCheckOn, changeCheckOff, changeOneChec
           type="checkbox"
           className="checkInput otherCheckbox"
           checked={otherCheckboxes[elem.id]}
-          onChange={(evn) => changeFilters(evn, otherCheckboxes)}
+          onChange={(evn) => changeFilters(evn, otherCheckboxes, changeOneCheckOn, changeCheckOn, changeMainCheckOff)}
         />
         <span className="checkBox" />
         <span className="text">{elem.value}</span>
       </label>
     </div>
   ));
+
   return (
     <div className="filtersCard">
       <p className="text mainText">КОЛИЧЕСТВО ПЕРЕСАДОК</p>

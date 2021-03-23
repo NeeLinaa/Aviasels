@@ -7,42 +7,43 @@ import Filters from '../filters/Filters';
 import TickedTypesBtns from '../ticked-types-btns/TickedTypesBtns';
 import TickedCard from '../ticked-card/TickedCard';
 import * as actions from '../../actions/action';
+import ApiServices from '../../services';
+import { saveSearchId } from '../../localStorages';
 
 function App({
   getAllTickets,
   // errorHandling
 }) {
-  const api = 'https://aviasales-test-api.java-mentor.com';
   const tickArr = [];
   const [loading, setLoading] = useState(true);
+  const apiServices = new ApiServices();
+  const sessionId = localStorage.getItem('searchId');
 
-  const getSearchId = () => {
-    fetch(`${api}/search`)
-      .then((response) => response.json())
-      .then((data) => localStorage.setItem('searchId', data.searchId));
-  };
-
-  const sendRequest = () => {
-    fetch(`${api}/tickets?searchId=${localStorage.getItem('searchId')}`)
-      .then((response) => response.json())
+  const getTicketsArray = () => {
+    apiServices
+      .sendRequest(sessionId)
       .then((items) => {
         if (!items.stop) {
           tickArr.push(...items.tickets);
-          sendRequest();
+          getTicketsArray();
         }
         setLoading(false);
         getAllTickets(tickArr);
       })
       .catch(() => {
         // errorHandling(true)
-        sendRequest();
+        getTicketsArray();
       });
   };
 
   useEffect(() => {
-    getSearchId();
-    sendRequest();
-  }, []);
+    const getResponsesFromServer = async () => {
+      await apiServices.getSearchId().then((data) => saveSearchId(data.searchId));
+      await getTicketsArray();
+    };
+
+    getResponsesFromServer();
+  }, [apiServices.getSearchId, getTicketsArray]);
 
   return (
     <div className={classes.container}>
